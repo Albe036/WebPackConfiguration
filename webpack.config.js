@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        app: './src/index.js'
+        app: ['@babel/polyfill', './src/index.js']
     },
     output:{
         path: path.resolve(__dirname, 'dist'),
@@ -21,13 +21,22 @@ module.exports = {
                 presets: ['@babel/preset-env']
               }
             }
+          },
+          {
+            test: /\.(svg|png|jpe?g|gif)$/,
+            exclude: /node_modules/,
+            use: [
+              {
+                loader: 'file-loader',
+              },
+            ],
           }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'public/[name].html',
-        template: path.resolve(__dirname, './src/index.html')/* ,
+        template: path.resolve(__dirname, './src/index.html'),
         minify:{
           collapseWhitespace: true,
           removeRedundantAttributes:true,
@@ -35,7 +44,7 @@ module.exports = {
           removeStyleLinkTypeAttributes: true,
           removeScriptTypeAttributes: true,
           useShortDoctype: true
-        } */
+        }
         })
     ]
 };
